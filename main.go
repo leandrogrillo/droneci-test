@@ -1,13 +1,26 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
+	"log"
+
+	"github.com/drone/drone-go/drone"
+	"github.com/drone/drone-go/plugin"
 )
 
+
 func main() {
-	log.Println(os.Getenv("DRONE_SYSTEM_HOST"))
-	log.Println(os.Getenv("DRONE_REPO_NAMESPACE"))
-	log.Println(os.Getenv("DRONE_REPO_NAME"))
-	log.Println(os.Getenv("GOCLIENT_OAUTH_TOKEN"))
+	workspace := drone.Workspace{}
+	repo := drone.Repo{}
+	build := drone.Build{}
+	job := drone.Job{}
+
+	plugin.Param("workspace", &workspace)
+	plugin.Param("repo", &repo)
+	plugin.Param("build", &build)
+	plugin.Param("job", &job)
+	plugin.MustParse()
+
+	log.Println(job.Status)
 }
